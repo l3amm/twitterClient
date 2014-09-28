@@ -10,20 +10,36 @@ import UIKit
 
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var refreshControl: UIRefreshControl!
     var tweets: [Tweet]?
 
     @IBOutlet weak var tweetTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.backgroundColor = UIColor(red: 64/255.0, green: 153/255.0, blue: 1.0, alpha: 1)
+        self.refreshControl.tintColor = UIColor.whiteColor()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refreshTweets", forControlEvents: UIControlEvents.ValueChanged)
+        tweetTableView.addSubview(self.refreshControl)
+        
         tweetTableView.estimatedRowHeight = 80
         tweetTableView.rowHeight = UITableViewAutomaticDimension
+        refreshTweets()
         
+        self.navigationItem.title = "hehehehe"
+        
+        println(self.navigationController?.navigationBar)
+    }
+    
+    func refreshTweets(){
         TwitterClient.sharedInstance.loadUserTimeline(nil, completion: { (tweets, error) -> () in
             self.tweets = tweets
             self.tweetTableView.reloadData()
-
         })
+        self.refreshControl.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
