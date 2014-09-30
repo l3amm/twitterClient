@@ -1,6 +1,6 @@
 Codepath iOS Week 3 - Twitter client
 
-Completed all required stories.
+Completed all required stories. Note that I have removed twitter credentials, so if you try to run you'll need to supply your own.
 
 Hours spent: ~10
 
