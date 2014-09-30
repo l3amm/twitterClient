@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if User.currentUser != nil {
             // Force it to go to the logged in screen
-            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetsViewController") as UIViewController
+            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationViewController") as UIViewController
             window?.rootViewController = vc
         }
         return true

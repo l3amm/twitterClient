@@ -42,7 +42,9 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     
     func loadUserTimeline(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()){
         // Temporary hack to get around rate limiting, cache the response
-        let tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
+        var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
+        // Remove hack
+        tweetData = nil
         if tweetData != nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
@@ -61,7 +63,38 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
                 return
             })
         }
-        
+    }
+    
+    func retweet(tweetId: Int, completion: (error: NSError?) -> ()){
+        POST("1.1/statuses/retweet/\(tweetId).json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            completion(error: nil)
+            return
+        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            completion(error: error)
+            return
+        }
+    }
+    
+    func fave(tweetId: Int, completion: (error: NSError?) -> ()){
+        var params = ["id": tweetId]
+        POST("1.1/favorites/create.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            completion(error: nil)
+            return
+        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            completion(error: error)
+            return
+        }
+    }
+    
+    func postTweet(tweetText: String, completion: (error: NSError?) -> ()){
+        var params = ["status": tweetText]
+        POST("1.1/statuses/update.json", parameters: params, success: { (operations: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            println("we succeeded in updating")
+            completion(error: nil)
+        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            println("we failed in updating")
+            completion(error: error)
+        }
     }
     
     func openURL(url: NSURL){

@@ -19,7 +19,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.backgroundColor = UIColor(red: 64/255.0, green: 153/255.0, blue: 1.0, alpha: 1)
+        self.refreshControl.backgroundColor = UIColor(red: 192/255.0, green: 192/255.0, blue: 192/255.0, alpha: 1)
         self.refreshControl.tintColor = UIColor.whiteColor()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refreshTweets", forControlEvents: UIControlEvents.ValueChanged)
@@ -28,10 +28,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tweetTableView.estimatedRowHeight = 80
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         refreshTweets()
-        
-        self.navigationItem.title = "hehehehe"
-        
-        println(self.navigationController?.navigationBar)
     }
     
     func refreshTweets(){
@@ -42,6 +38,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.refreshControl.endRefreshing()
     }
 
+    @IBAction func newTweet(sender: AnyObject) {
+        performSegueWithIdentifier("newTweetSegue", sender: self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -53,6 +53,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tweetTableView.dequeueReusableCellWithIdentifier("tweetTableViewCell") as TweetTableViewCell
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         let tweet = tweets![indexPath.row]
         let profileURL = NSURL(string: tweet.user!.profileImageURL!)
         cell.profilePicImageView.setImageWithURL(profileURL)
@@ -70,6 +71,23 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
 
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // Perform a segue to the details
+        let tweet = tweets![indexPath.row]
+        performSegueWithIdentifier("tweetDetailSegue", sender: tweet)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "tweetDetailSegue" {
+            let vc = segue.destinationViewController as TweetDetailViewController
+            let tweet = sender as Tweet
+            vc.tweet = tweet
+        } else if segue.identifier == "newTweetSegue" {
+            println("we doing a new tweet")
+        }
+    }
+    
 
     /*
     // MARK: - Navigation
