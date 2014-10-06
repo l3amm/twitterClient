@@ -9,8 +9,8 @@
 import UIKit
 
 
-let twitterConsumerKey = ""
-let twitterConsumerSecret = ""
+let twitterConsumerKey = "0jxBPb7rJkpIgiVvbyQWBqNND"
+let twitterConsumerSecret = "q96WME6vTZoFFpb7DAzBP9Msh6ZRacG4HtTzEnc8aFEAp1of6f"
 let twitterBaseURL = NSURL(string: "https://api.twitter.com")
 
 
@@ -44,7 +44,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         // Temporary hack to get around rate limiting, cache the response
         var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
         // Remove hack
-        if tweetData != nil{
+        if tweetData == nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
             completion(tweets: tweets, error: nil)

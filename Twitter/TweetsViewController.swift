@@ -12,10 +12,38 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var refreshControl: UIRefreshControl!
     var tweets: [Tweet]?
-
+    
+    var profileView = profileViewController(nibName: nil, bundle: nil)
+    
+    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var tweetTableView: UITableView!
+    @IBOutlet weak var timelineButton: UIButton!
+    @IBOutlet weak var mentionsButton: UIButton!
+    
+    var activeViewController: UIViewController? {
+        didSet(oldViewControllerOrNil){
+            println("heheh")
+            println(oldViewControllerOrNil)
+            if let oldVC = oldViewControllerOrNil {
+                oldVC.willMoveToParentViewController(nil)
+                oldVC.view.removeFromSuperview()
+                oldVC.removeFromParentViewController()
+                println(oldVC)
+            }
+            if let newVC = activeViewController {
+                println(newVC)
+                self.addChildViewController(newVC)
+                newVC.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+                newVC.view.frame = self.tweetTableView.bounds
+                self.tweetTableView.addSubview(newVC.view)
+                newVC.didMoveToParentViewController(self)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
@@ -63,9 +91,34 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    @IBAction func didPan(sender: AnyObject) {
-        println("panning")
+    @IBAction func didPan(sender: UIPanGestureRecognizer) {
+//        let xOffset = sender.translationInView(self.view.superview!).x
+//        
+//        if xOffset < 0 {
+//            return
+//        }
+//        
+//        if sender.state == .Ended && xOffset > 50 {
+//            contentViewLeftConstraint.constant = 160
+//        } else if sender.state == .Ended && xOffset <= 50 {
+//            contentViewLeftConstraint.constant = 0
+//        } else if xOffset < 160 {
+//            contentViewLeftConstraint.constant = xOffset
+//        }
     }
+    
+    @IBAction func tappedSidebarButton(sender: UIButton) {
+        if sender == profileButton{
+            self.activeViewController = profileView
+            println("profile")
+        } else if sender == mentionsButton {
+            println("mentions")
+        } else if sender == timelineButton {
+            println("timeline")
+        }
+    }
+    
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil {
             return tweets!.count
