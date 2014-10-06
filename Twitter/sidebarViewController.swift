@@ -17,20 +17,20 @@ class sidebarViewController: UIViewController {
     @IBOutlet weak var contentXConstraint: NSLayoutConstraint!
     var activeViewController: UIViewController? {
         didSet(oldViewControllerOrNil){
-            println("heheh")
-            println(oldViewControllerOrNil)
             if let oldVC = oldViewControllerOrNil {
                 oldVC.willMoveToParentViewController(nil)
                 oldVC.view.removeFromSuperview()
                 oldVC.removeFromParentViewController()
-                println(oldVC)
             }
             if let newVC = activeViewController {
                 println(newVC)
+                println("heere")
                 self.addChildViewController(newVC)
                 newVC.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
                 newVC.view.frame = self.contentView.bounds
+                println("stuff")
                 self.contentView.addSubview(newVC.view)
+                println("things")
                 newVC.didMoveToParentViewController(self)
             }
         }
@@ -38,7 +38,9 @@ class sidebarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.activeViewController = tweetsViewController
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewControllerWithIdentifier("TweetsViewController") as TweetsViewController
+        self.activeViewController = vc
         // Do any additional setup after loading the view.
     }
 
