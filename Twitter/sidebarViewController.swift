@@ -12,8 +12,13 @@ class sidebarViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     
-    var tweetsViewController = TweetsViewController(nibName: nil, bundle: nil)
+    var timelineVC: TweetsViewController!
+    var mentionsVC: TweetsViewController!
+    var profileVC: TweetsViewController!
     
+    @IBOutlet weak var mentionsButton: UIButton!
+    @IBOutlet weak var timelineButton: UIButton!
+    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var contentXConstraint: NSLayoutConstraint!
     var activeViewController: UIViewController? {
         didSet(oldViewControllerOrNil){
@@ -35,15 +40,35 @@ class sidebarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as UIViewController
-        self.activeViewController = vc
+        timelineVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        mentionsVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        profileVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        profileVC.displayProfile = true
+        self.activeViewController = timelineVC
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func sidebarButtonTapped(sender: UIButton) {
+        if sender == mentionsButton {
+            self.activeViewController = mentionsVC
+        } else if sender == profileButton {
+            self.activeViewController = profileVC
+        } else if sender == timelineButton {
+            self.activeViewController = timelineVC
+        }
+        // Reload the tweets data on the activeViewController
+        (self.activeViewController as TweetsViewController).refreshTweets()
+        // Close the tray, should upgrade to an animation
+        contentXConstraint.constant = 0
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     
     @IBAction func didPan(sender: UIPanGestureRecognizer) {

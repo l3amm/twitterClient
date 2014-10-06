@@ -10,9 +10,12 @@ import UIKit
 
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var displayProfile = false
+    
     var refreshControl: UIRefreshControl!
     var tweets: [Tweet]?
     
+    @IBOutlet weak var profileHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tweetTableView: UITableView!
     
     @IBOutlet weak var fakeButton: UIButton!
@@ -27,6 +30,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refreshTweets", forControlEvents: UIControlEvents.ValueChanged)
         tweetTableView.addSubview(self.refreshControl)
+        
+        if displayProfile == false {
+            profileHeightConstraint.constant = 0
+        }
         
         tweetTableView.estimatedRowHeight = 80
         tweetTableView.rowHeight = UITableViewAutomaticDimension
@@ -66,28 +73,12 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    @IBAction func didPan(sender: UIPanGestureRecognizer) {
-//        let xOffset = sender.translationInView(self.view.superview!).x
-//        
-//        if xOffset < 0 {
-//            return
-//        }
-//        
-//        if sender.state == .Ended && xOffset > 50 {
-//            contentViewLeftConstraint.constant = 160
-//        } else if sender.state == .Ended && xOffset <= 50 {
-//            contentViewLeftConstraint.constant = 0
-//        } else if xOffset < 160 {
-//            contentViewLeftConstraint.constant = xOffset
-//        }
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var tweetCount = 0
         if tweets != nil {
-            return tweets!.count
-        } else {
-            return 0
+            tweetCount = tweets!.count
         }
+        return tweetCount
 
     }
     

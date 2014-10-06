@@ -44,7 +44,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         // Temporary hack to get around rate limiting, cache the response
         var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
         // Remove hack
-        if tweetData == nil{
+        if tweetData != nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
             completion(tweets: tweets, error: nil)
