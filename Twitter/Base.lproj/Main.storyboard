@@ -37,7 +37,7 @@
         <!--Home-->
         <scene sceneID="jk1-CO-rwW">
             <objects>
-                <viewController storyboardIdentifier="TweetsViewController" id="P9D-zw-iIO" customClass="TweetsViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TimelineViewController" id="P9D-zw-iIO" customClass="TweetsViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZjX-Yo-6r1"/>
                         <viewControllerLayoutGuide type="bottom" id="rrK-OW-5QM"/>
@@ -118,9 +118,6 @@
                             <constraint firstAttribute="trailing" secondItem="ArK-ul-nqB" secondAttribute="trailing" id="jcw-EN-RfY"/>
                             <constraint firstAttribute="bottom" secondItem="ArK-ul-nqB" secondAttribute="bottom" id="pzf-Bt-n0A"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="RDp-f3-hfx" appends="YES" id="dwD-Tq-Zbi"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="djK-NN-Mau">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="VLH-eh-07B">
@@ -145,19 +142,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="contentViewLeftConstraint" destination="9IL-ph-px6" id="LiN-m1-Rst"/>
-                        <outlet property="fakeTableview" destination="ArK-ul-nqB" id="uuk-Rc-syD"/>
                         <outlet property="tweetTableView" destination="ArK-ul-nqB" id="Ysd-hh-92a"/>
                         <segue destination="erJ-gY-Qwg" kind="push" identifier="tweetDetailSegue" id="ehz-aI-p5k"/>
                         <segue destination="L24-mE-ipZ" kind="push" identifier="newTweetSegue" id="6Vn-mL-DfU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5q-2I-cwf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="RDp-f3-hfx">
-                    <connections>
-                        <action selector="didPan:" destination="P9D-zw-iIO" id="27F-Rm-xHp"/>
-                    </connections>
-                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="878" y="129"/>
         </scene>
@@ -370,7 +360,7 @@
             </objects>
             <point key="canvasLocation" x="1652" y="129"/>
         </scene>
-        <!--Home-->
+        <!--Twitter-->
         <scene sceneID="nL3-SY-2gf">
             <objects>
                 <viewController id="deC-zy-dkq" customClass="sidebarViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
@@ -382,30 +372,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QAa-RS-xqe" userLabel="sidebarView">
-                                <rect key="frame" x="0.0" y="0.0" width="132" height="568"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QAa-RS-xqe" userLabel="sidebarView">
+                                <rect key="frame" x="0.0" y="0.0" width="160" height="568"/>
                                 <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zAg-Zp-zRY" userLabel="contentView">
                                 <rect key="frame" x="131" y="0.0" width="189" height="568"/>
                                 <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="9X2-Tm-eN9" appends="YES" id="2fw-ai-rW3"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="QAa-RS-xqe" firstAttribute="leading" secondItem="qYv-ZA-Ejo" secondAttribute="leading" id="1uo-zK-efy"/>
                             <constraint firstAttribute="centerX" secondItem="zAg-Zp-zRY" secondAttribute="centerX" id="L88-nm-bJ5"/>
                             <constraint firstItem="zAg-Zp-zRY" firstAttribute="height" secondItem="qYv-ZA-Ejo" secondAttribute="height" id="MCU-1p-xYp"/>
                             <constraint firstAttribute="centerY" secondItem="zAg-Zp-zRY" secondAttribute="centerY" id="d6F-Fx-nP5"/>
                             <constraint firstItem="zAg-Zp-zRY" firstAttribute="width" secondItem="qYv-ZA-Ejo" secondAttribute="width" id="e2a-nH-hVo"/>
+                            <constraint firstItem="QAa-RS-xqe" firstAttribute="top" secondItem="tVj-nV-Mss" secondAttribute="bottom" id="eW0-Ux-uxf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="37T-eY-zp4"/>
+                    <navigationItem key="navigationItem" title="Twitter" id="37T-eY-zp4"/>
                     <connections>
                         <outlet property="contentView" destination="zAg-Zp-zRY" id="j7z-RH-8Hf"/>
                         <outlet property="contentXConstraint" destination="L88-nm-bJ5" id="vMD-Wo-VFc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ac-Qh-6vm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="9X2-Tm-eN9">
+                    <connections>
+                        <action selector="didPan:" destination="deC-zy-dkq" id="h57-4d-4Py"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="504" y="-500"/>
         </scene>
@@ -472,6 +473,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="VZR-hd-dNO"/>
-        <segue reference="5b2-S6-Htn"/>
+        <segue reference="6Vn-mL-DfU"/>
     </inferredMetricsTieBreakers>
 </document>

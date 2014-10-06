@@ -23,14 +23,10 @@ class sidebarViewController: UIViewController {
                 oldVC.removeFromParentViewController()
             }
             if let newVC = activeViewController {
-                println(newVC)
-                println("heere")
                 self.addChildViewController(newVC)
                 newVC.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
                 newVC.view.frame = self.contentView.bounds
-                println("stuff")
                 self.contentView.addSubview(newVC.view)
-                println("things")
                 newVC.didMoveToParentViewController(self)
             }
         }
@@ -39,7 +35,7 @@ class sidebarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier("NewTweetViewController") as UIViewController
+        let vc = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as UIViewController
         self.activeViewController = vc
         // Do any additional setup after loading the view.
     }
@@ -47,6 +43,22 @@ class sidebarViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    @IBAction func didPan(sender: UIPanGestureRecognizer) {
+        let xOffset = sender.translationInView(self.view).x
+        if xOffset < 0 {
+            return
+        }
+
+        if sender.state == .Ended && xOffset > 50 {
+            contentXConstraint.constant = -120
+        } else if sender.state == .Ended && xOffset <= 50 {
+            contentXConstraint.constant = 0
+        } else if xOffset < 120 {
+            contentXConstraint.constant = -xOffset
+        }
     }
     
 
