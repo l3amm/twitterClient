@@ -113,6 +113,10 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="RDp-f3-hfx" appends="YES" id="dwD-Tq-Zbi"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="djK-NN-Mau">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="VLH-eh-07B">
@@ -143,6 +147,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5q-2I-cwf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="RDp-f3-hfx">
+                    <connections>
+                        <action selector="didPan:" destination="P9D-zw-iIO" id="27F-Rm-xHp"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="878" y="129"/>
         </scene>
@@ -364,6 +373,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5b2-S6-Htn"/>
+        <segue reference="6Vn-mL-DfU"/>
     </inferredMetricsTieBreakers>
 </document>
