@@ -39,7 +39,7 @@ class sidebarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewControllerWithIdentifier("TweetsViewController") as TweetsViewController
+        let vc = sb.instantiateViewControllerWithIdentifier("NewTweetViewController") as UIViewController
         self.activeViewController = vc
         // Do any additional setup after loading the view.
     }

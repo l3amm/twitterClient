@@ -10,9 +10,10 @@ import UIKit
 
 class fakeViewController: UIViewController {
 
+    @IBOutlet weak var fakeButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        println(fakeButton)
         // Do any additional setup after loading the view.
     }
 

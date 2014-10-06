@@ -13,14 +13,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var refreshControl: UIRefreshControl!
     var tweets: [Tweet]?
     
-    @IBOutlet weak var fakeTableview: UITableView!
     @IBOutlet weak var tweetTableView: UITableView!
     
     @IBOutlet weak var fakeButton: UIButton!
-    override func loadView(){
-        println("loading view")
-        self.view = UIView(frame: CGRectZero)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
