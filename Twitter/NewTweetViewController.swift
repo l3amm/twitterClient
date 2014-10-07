@@ -20,7 +20,6 @@ class NewTweetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShown", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden", name: UIKeyboardDidHideNotification, object: nil)

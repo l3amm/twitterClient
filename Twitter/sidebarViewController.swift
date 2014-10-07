@@ -42,6 +42,7 @@ class sidebarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let sb = UIStoryboard(name: "Main", bundle: nil)
         timelineVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
         timelineVC.tweetStreamType = StreamType.Home
@@ -66,6 +67,10 @@ class sidebarViewController: UIViewController {
     func closeSidebar() {
         // Close the tray, should upgrade to an animation
         contentXConstraint.constant = 0
+    }
+    
+    @IBAction func logoutUser(sender: AnyObject) {
+        User.currentUser?.logout()
     }
     
     func showUserTimeline(user: User){
