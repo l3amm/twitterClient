@@ -8,9 +8,12 @@
 
 import UIKit
 
+let showUserTimeline = "showUserTimeline"
+
 class sidebarViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var sidebarView: UIView!
     
     var timelineVC: TweetsViewController!
     var mentionsVC: TweetsViewController!
@@ -41,35 +44,61 @@ class sidebarViewController: UIViewController {
         super.viewDidLoad()
         let sb = UIStoryboard(name: "Main", bundle: nil)
         timelineVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        timelineVC.tweetStreamType = StreamType.Home
+        timelineVC.sidebarVC = self
         mentionsVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        mentionsVC.tweetStreamType = StreamType.Mention
+        mentionsVC.sidebarVC = self
         profileVC = sb.instantiateViewControllerWithIdentifier("TimelineViewController") as TweetsViewController
+        profileVC.tweetStreamType = StreamType.User
         profileVC.displayProfile = true
+        profileVC.sidebarVC = self
+        if User.currentUser != nil {
+            profileVC.profileUser = User.currentUser
+        }
         self.activeViewController = timelineVC
         // Do any additional setup after loading the view.
+        let sidebarTap = UITapGestureRecognizer(target: self, action: "closeSidebar")
+        sidebarTap.numberOfTapsRequired = 1
+        self.sidebarView.addGestureRecognizer(sidebarTap)
+    }
+    
+    func closeSidebar() {
+        // Close the tray, should upgrade to an animation
+        contentXConstraint.constant = 0
+    }
+    
+    func showUserTimeline(user: User){
+        profileVC.profileUser = user
+        self.activeViewController = profileVC
+        profileVC.updateProfile()
+        profileVC.refreshTweets()
+        self.navigationItem.title = "@\(user.screenname!)'s Timeline"
+        closeSidebar()
     }
     
     @IBAction func sidebarButtonTapped(sender: UIButton) {
         if sender == mentionsButton {
             self.activeViewController = mentionsVC
+            self.navigationItem.title = "My Mentions"
         } else if sender == profileButton {
+            profileVC.profileUser = User.currentUser
             self.activeViewController = profileVC
+            self.navigationItem.title = "Profile"
         } else if sender == timelineButton {
             self.activeViewController = timelineVC
+            self.navigationItem.title = "Timeline"
         }
         // Reload the tweets data on the activeViewController
         (self.activeViewController as TweetsViewController).refreshTweets()
-        // Close the tray, should upgrade to an animation
-        contentXConstraint.constant = 0
+        (self.activeViewController as TweetsViewController).updateProfile()
+        closeSidebar()
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
     
     @IBAction func didPan(sender: UIPanGestureRecognizer) {
         let xOffset = sender.translationInView(self.view).x

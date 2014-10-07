@@ -8,17 +8,30 @@
 
 import UIKit
 
+enum StreamType {
+    case Home, Mention, User
+}
+
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var displayProfile = false
+    var sidebarVC: sidebarViewController!
     
+    var displayProfile = false
+    var tweetStreamType: StreamType = StreamType.Home // Default value
     var refreshControl: UIRefreshControl!
     var tweets: [Tweet]?
     
     @IBOutlet weak var profileHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tweetTableView: UITableView!
     
-    @IBOutlet weak var fakeButton: UIButton!
+    //Used for the profile view
+    var profileUser: User!
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var followingCountLabel: UILabel!
+    @IBOutlet weak var followerCountLabel: UILabel!
+    @IBOutlet weak var tweetCountLabel: UILabel!
+    @IBOutlet weak var userScreennameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +51,43 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tweetTableView.estimatedRowHeight = 80
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         refreshTweets()
+        updateProfile()
+    }
+    
+    func updateProfile(){
+        if profileUser != nil {
+            userNameLabel.text = profileUser.name
+            userScreennameLabel.text = "@\(profileUser.screenname!)"
+            followerCountLabel.text = "\(profileUser.followerCount!)"
+            followingCountLabel.text = "\(profileUser.followingCount!)"
+            tweetCountLabel.text = "\(profileUser.tweetCount!)"
+            let profileURL = NSURL(string: profileUser.profileImageURL!)
+            userImageView.setImageWithURL(profileURL)
+        }
     }
     
     func refreshTweets(){
-        TwitterClient.sharedInstance.loadUserTimeline(nil, completion: { (tweets, error) -> () in
-            self.tweets = tweets
-            self.tweetTableView.reloadData()
-        })
+        // We use different API endpoints depending on whether we are looking at our home, a user timeline or our mention timeline
+        switch tweetStreamType {
+        case .Home:
+            TwitterClient.sharedInstance.loadHomeTimeline(nil, completion: { (tweets, error) -> () in
+                self.tweets = tweets
+                self.tweetTableView.reloadData()
+            })
+
+        case .Mention:
+            TwitterClient.sharedInstance.loadMentionsTimeline(nil, completion: { (tweets, error) -> () in
+                self.tweets = tweets
+                self.tweetTableView.reloadData()
+            })
+
+        case .User:
+            TwitterClient.sharedInstance.loadUserTimeline(nil, completion: { (tweets, error) -> () in
+                self.tweets = tweets
+                self.tweetTableView.reloadData()
+            })
+
+        }
         self.refreshControl.endRefreshing()
     }
 
@@ -63,8 +106,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tweetTableView.dequeueReusableCellWithIdentifier("tweetTableViewCell") as TweetTableViewCell
+        cell.vc = self
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         let tweet = tweets![indexPath.row]
+        cell.user = tweet.user!
         let profileURL = NSURL(string: tweet.user!.profileImageURL!)
         cell.profilePicImageView.setImageWithURL(profileURL)
         cell.nameLabel.text = tweet.user!.name
@@ -96,6 +141,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } else if segue.identifier == "newTweetSegue" {
             println("we doing a new tweet")
         }
+    }
+    
+    func changeUser(user: User){
+        // pass through method from cell -> sidebar
+        sidebarVC.showUserTimeline(user)
     }
     
 

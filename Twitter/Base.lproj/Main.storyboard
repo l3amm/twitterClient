@@ -89,7 +89,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Following" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9g-Ip-1Hb">
-                                                <rect key="frame" x="246" y="16" width="74" height="21"/>
+                                                <rect key="frame" x="246" y="23" width="74" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
@@ -103,13 +103,14 @@
                                             <constraint firstItem="m9g-Ip-1Hb" firstAttribute="centerY" secondItem="Psh-8A-jro" secondAttribute="centerY" id="N4F-9g-5mK"/>
                                             <constraint firstItem="zab-ap-kTK" firstAttribute="top" secondItem="5Hk-oH-5I4" secondAttribute="bottom" constant="5" id="RAm-OG-JAK"/>
                                             <constraint firstItem="5Hk-oH-5I4" firstAttribute="top" secondItem="Iag-94-4jU" secondAttribute="top" constant="5" id="SHq-Xq-zgO"/>
+                                            <constraint firstAttribute="trailing" secondItem="dRi-RQ-atq" secondAttribute="trailing" constant="10" id="TCw-D9-SY0"/>
+                                            <constraint firstItem="m9g-Ip-1Hb" firstAttribute="centerY" secondItem="Psh-8A-jro" secondAttribute="centerY" id="Vgh-xf-yta"/>
                                             <constraint firstItem="dRi-RQ-atq" firstAttribute="top" secondItem="Iag-94-4jU" secondAttribute="top" constant="10" id="XOG-0v-uM0"/>
                                             <constraint firstItem="zab-ap-kTK" firstAttribute="centerY" secondItem="Psh-8A-jro" secondAttribute="centerY" id="bGf-11-wQ2"/>
                                             <constraint firstItem="zab-ap-kTK" firstAttribute="centerX" secondItem="5Hk-oH-5I4" secondAttribute="centerX" id="beh-um-cje"/>
                                             <constraint firstAttribute="centerX" secondItem="AlY-iE-45T" secondAttribute="centerX" id="cas-fn-gu5"/>
                                             <constraint firstItem="zab-ap-kTK" firstAttribute="leading" secondItem="Iag-94-4jU" secondAttribute="leading" constant="10" id="d6t-TX-zGx"/>
                                             <constraint firstItem="AlY-iE-45T" firstAttribute="centerX" secondItem="Psh-8A-jro" secondAttribute="centerX" id="tP9-XE-uoq"/>
-                                            <constraint firstItem="zab-ap-kTK" firstAttribute="top" secondItem="5Hk-oH-5I4" secondAttribute="bottom" id="tnW-fg-6nP"/>
                                         </constraints>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitterIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="V7W-K4-U06">
@@ -245,8 +246,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="followerCountLabel" destination="AlY-iE-45T" id="fud-2D-BEd"/>
+                        <outlet property="followingCountLabel" destination="dRi-RQ-atq" id="Zdk-uO-Emu"/>
                         <outlet property="profileHeightConstraint" destination="0rf-lD-faS" id="Ne0-U0-ua8"/>
+                        <outlet property="tweetCountLabel" destination="5Hk-oH-5I4" id="L9S-4b-m1V"/>
                         <outlet property="tweetTableView" destination="ArK-ul-nqB" id="Ysd-hh-92a"/>
+                        <outlet property="userImageView" destination="V7W-K4-U06" id="XXP-w4-3K7"/>
+                        <outlet property="userNameLabel" destination="DR3-pD-37P" id="DBM-OU-e1f"/>
+                        <outlet property="userScreennameLabel" destination="Qji-jq-LRC" id="XDp-pd-wVu"/>
                         <segue destination="erJ-gY-Qwg" kind="push" identifier="tweetDetailSegue" id="ehz-aI-p5k"/>
                         <segue destination="L24-mE-ipZ" kind="push" identifier="newTweetSegue" id="6Vn-mL-DfU"/>
                     </connections>
@@ -481,7 +488,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5D-iM-raF">
                                         <rect key="frame" x="10" y="20" width="100" height="30"/>
-                                        <state key="normal" title="My Timeline">
+                                        <state key="normal" title="Timeline">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -498,8 +505,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOI-ah-mUO">
-                                        <rect key="frame" x="25" y="120" width="69" height="30"/>
-                                        <state key="normal" title="My Profile">
+                                        <rect key="frame" x="37" y="120" width="44" height="30"/>
+                                        <state key="normal" title="Profile">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -546,6 +553,7 @@
                         <outlet property="contentXConstraint" destination="L88-nm-bJ5" id="vMD-Wo-VFc"/>
                         <outlet property="mentionsButton" destination="dQV-H6-GOZ" id="3bN-Fc-qrq"/>
                         <outlet property="profileButton" destination="AOI-ah-mUO" id="hsq-Eq-pn0"/>
+                        <outlet property="sidebarView" destination="QAa-RS-xqe" id="Lgf-8d-SAK"/>
                         <outlet property="timelineButton" destination="B5D-iM-raF" id="zTq-5t-qlf"/>
                     </connections>
                 </viewController>

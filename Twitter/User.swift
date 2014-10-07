@@ -14,17 +14,23 @@ let userDidLoginNotification = "userDidLoginNotification"
 let userDidLogoutNotification = "userDidLogoutNotification"
 
 class User: NSObject {
-    var name: String?
-    var screenname: String?
-    var profileImageURL: String?
-    var tagline: String?
     var dictionary: NSDictionary?
+    var followerCount: Int?
+    var followingCount: Int?
+    var name: String?
+    var profileImageURL: String?
+    var screenname: String?
+    var tagline: String?
+    var tweetCount: Int?
     
     init(dictionary: NSDictionary){
         self.dictionary = dictionary
+        followerCount = dictionary["followers_count"] as? Int
+        followingCount = dictionary["friends_count"] as? Int
+        tweetCount = dictionary["statuses_count"] as? Int
         name = dictionary["name"] as? String
-        screenname = dictionary["screen_name"] as? String
         profileImageURL = dictionary["profile_image_url"] as? String
+        screenname = dictionary["screen_name"] as? String
         tagline = dictionary["description"] as? String
     }
     
