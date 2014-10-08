@@ -9,8 +9,8 @@
 import UIKit
 
 
-let twitterConsumerKey = "0jxBPb7rJkpIgiVvbyQWBqNND"
-let twitterConsumerSecret = "q96WME6vTZoFFpb7DAzBP9Msh6ZRacG4HtTzEnc8aFEAp1of6f"
+let twitterConsumerKey = ""
+let twitterConsumerSecret = ""
 let twitterBaseURL = NSURL(string: "https://api.twitter.com")
 
 
@@ -44,12 +44,12 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         // TODO change the url route so that it points to a given users timeline not the home timeline
         var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
         // Remove hack
-        if tweetData != nil{
+        if tweetData == nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
             completion(tweets: tweets, error: nil)
         } else {
-            GET("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            GET("1.1/statuses/user_timeline.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 
                 NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
                 var tweetData = NSJSONSerialization.dataWithJSONObject(response as [NSDictionary], options: nil, error: nil)
@@ -69,12 +69,12 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         // TODO change the url route so that it points to mentions not the home timeline
         var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
         // Remove hack
-        if tweetData != nil{
+        if tweetData == nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
             completion(tweets: tweets, error: nil)
         } else {
-            GET("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            GET("1.1/statuses/mentions_timeline.json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 
                 NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
                 var tweetData = NSJSONSerialization.dataWithJSONObject(response as [NSDictionary], options: nil, error: nil)
@@ -95,7 +95,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         // Temporary hack to get around rate limiting, cache the response
         var tweetData = NSUserDefaults.standardUserDefaults().objectForKey("tweetData") as? NSData
         // Remove hack
-        if tweetData != nil{
+        if tweetData == nil{
             let tweetArray = NSJSONSerialization.JSONObjectWithData(tweetData!, options: nil, error: nil) as [NSDictionary]
             var tweets = Tweet.tweetsWithArray(tweetArray)
             completion(tweets: tweets, error: nil)

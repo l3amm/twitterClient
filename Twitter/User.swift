@@ -17,6 +17,7 @@ class User: NSObject {
     var dictionary: NSDictionary?
     var followerCount: Int?
     var followingCount: Int?
+    var id: Int?
     var name: String?
     var profileImageURL: String?
     var screenname: String?
@@ -27,6 +28,7 @@ class User: NSObject {
         self.dictionary = dictionary
         followerCount = dictionary["followers_count"] as? Int
         followingCount = dictionary["friends_count"] as? Int
+        id = dictionary["id"] as? Int
         tweetCount = dictionary["statuses_count"] as? Int
         name = dictionary["name"] as? String
         profileImageURL = dictionary["profile_image_url"] as? String

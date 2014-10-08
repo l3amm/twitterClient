@@ -82,7 +82,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             })
 
         case .User:
-            TwitterClient.sharedInstance.loadUserTimeline(nil, completion: { (tweets, error) -> () in
+            let params = ["user_id": profileUser.id!]
+            TwitterClient.sharedInstance.loadUserTimeline(params, completion: { (tweets, error) -> () in
                 self.tweets = tweets
                 self.tweetTableView.reloadData()
             })
