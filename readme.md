@@ -4,3 +4,5 @@ Completed all required stories. Current implementation has poor use of notificai
 
 Hours spent: ~10
 
+![Video Walkthrough1](twitterGestures1.gif)
+![Video Walkthrough2](twitterGestures2.gif)
